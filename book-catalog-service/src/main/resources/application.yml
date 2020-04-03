@@ -1,0 +1,22 @@
+management:
+  endpoints:
+    web:
+      exposure.:
+        include: hystrix.stream
+
+#spring:
+#  application:
+#    name: book-catalog-service
+#
+#server:
+#  port: 8081
+#
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
+#
+#zuul:
+#  routes:
+#    book-info:
+#      url=http://localhost:8082:

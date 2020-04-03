@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS rating;
+
+CREATE TABLE rating (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  bookid INT NOT NULL,
+  rating INT  NOT NULL
+);

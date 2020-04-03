@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+	<groupId>com.spring-microservices</groupId>
+    <artifactId>spring-boot-microservices</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>spring-boot-microservices</name>
+    <packaging>pom</packaging>
+
+    <properties>
+        <spring-boot-maven-plugin.version>2.0.1.RELEASE</spring-boot-maven-plugin.version>
+        <commons-config.version>1.10</commons-config.version>
+        <rxjava.version>1.2.10</rxjava.version>
+        <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
+        <spring-cloud-dependencies.version>Finchley.SR2</spring-cloud-dependencies.version>
+    </properties>
+
+    <modules>
+		<module>config-server</module>
+		<module>discovery-server</module>
+        <module>api-gateway</module>
+        <module>book-info-service</module>
+        <module>book-catalog-service</module>
+        <module>book-rating-service</module>
+    </modules>
+
+</project>
