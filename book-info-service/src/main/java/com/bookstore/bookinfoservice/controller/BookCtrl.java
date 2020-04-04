@@ -1,7 +1,10 @@
 package com.bookstore.bookinfoservice.controller;
 
 import com.bookstore.bookinfoservice.service.BookService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
@@ -10,7 +13,7 @@ import java.util.Optional;
 public class BookCtrl {
     private BookService bookService;
 
-    public BookCtrl (BookService bookService){
+    public BookCtrl(BookService bookService) {
         this.bookService = bookService;
     }
 
@@ -20,12 +23,7 @@ public class BookCtrl {
     }
 
     @GetMapping("/list")
-    public Iterable getBooksInfo(){
+    public Iterable getBooksInfo() {
         return bookService.findAllBooks();
-    }
-
-    @GetMapping("/test")
-    public String getList(){
-        return "Book info list of all books";
     }
 }

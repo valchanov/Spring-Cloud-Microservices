@@ -1,10 +1,10 @@
-package com.bookstore.bookinfoservice;
+package com.bookstore.bookratingservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BookInfoServiceApplicationTests {
+class BookRatingServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/catalog")
@@ -24,56 +22,48 @@ public class BookCatalogCtrl {
         this.restTemplate = restTemplate;
     }
 
-//    @RequestMapping("/{userId}")
-//    @HystrixCommand(defaultFallback = "getFallbackCatalogue",
-//                    commandProperties = {
-//                        @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
-//                        @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "500"),
-//                        @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "2"),
-//                        @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
-//                    }
-//    )
+    @GetMapping("/list")
+    @HystrixCommand(defaultFallback = "getFallbackCatalogue",
+            commandProperties = {
+                    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
+                    @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "500"),
+                    @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "2"),
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
+            }
+    )
+    public List<CatalogItem> getCatalog() {
+        Book[] books = restTemplate.getForEntity("http://book-info-service/books/list",
+                Book[].class).getBody();
 
-//    public List<CatalogItem> getCatalog() {
-//        Book[] books = restTemplate.getForEntity("http://book-info-service/ratings/list",
-//                                                                     Book[].class).getBody();
-//
-//        Rating[] ratings  = restTemplate.getForEntity("http://book-info-service/ratings/list",
-//                                                                       Rating[].class).getBody();
-//
-//        List<CatalogItem> catalog ;
-//
-//        catalog =
-//            Arrays.stream(books).map( o1 -> {
-//                Optional<MyObject2> error = list2.steam()
-//                                                 .filter( o2 -> o2.getId() == o1.getId() )
-//                                                 .findAny();
-//                if ( error.isPresent() )
-//                    return new MyJoinObject( o1.getId(), o1.getName(), error.get().getError() );
-//
-//                return new MyJoinObject( o1.getId(), o1.getName() );
-//
-//            } ).collect( Collectors.toList() );
-//                         .collect(Collectors.toList());
-//
-//    }
+        Rating[] ratings = restTemplate.getForEntity("http://book-rating-service/ratings/list",
+                Rating[].class).getBody();
+
+        List<CatalogItem> catalog = new ArrayList<>();
+
+        Arrays.stream(books).forEach(b -> {
+            int currentRating = Arrays.stream(ratings)
+                    .filter(r -> r.getBookid().equals(b.getId()))
+                    .findFirst()
+                    .get()
+                    .getRating();
+
+            catalog.add(new CatalogItem(b.getTitle(), b.getAuthor(), b.getDescription(), currentRating));
+        });
+
+        return catalog;
+    }
 
 
     @GetMapping("/{bookId}")
     public CatalogItem getCatalogItem(@PathVariable("bookId") String bookId) {
 
         Book book = restTemplate.getForObject("http://book-info-service/books/" + bookId,
-                                              Book.class);
+                Book.class);
 
         Rating rating = restTemplate.getForObject("http://book-rating-service/ratings/" + bookId,
-                                                  Rating.class);
+                Rating.class);
 
         return new CatalogItem(book.getTitle(), book.getAuthor(), book.getDescription(), rating.getRating());
-    }
-
-    @GetMapping("/list")
-    public String getList() {
-        return "Catalog of all books";
     }
 
     private List<CatalogItem> getFallbackCatalogue() {

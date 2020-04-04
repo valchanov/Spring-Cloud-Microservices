@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/ratings")
 public class RatingController {
@@ -18,23 +16,13 @@ public class RatingController {
         this.ratingService = ratingService;
     }
 
-    @GetMapping("/test")
-    public Iterable<Rating> getAll() {
-        return ratingService.getAll();
-    }
-
-    @GetMapping("/test2")
-    public String aaa() {
-        return "This is test";
-    }
-
     @GetMapping("/{bookId}")
-    public Optional<Rating> getRating(@PathVariable("bookId") Long id){
-        return ratingService.getRating(id);
+    public Rating getRatingByBookId(@PathVariable("bookId") Long id) {
+        return ratingService.findByBookid(id);
     }
 
     @GetMapping("/list")
-    public Iterable<Rating> getAllRatings(){
+    public Iterable<Rating> getAllRatings() {
         return ratingService.getAll();
     }
 }
