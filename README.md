@@ -24,7 +24,8 @@ Used technologies:
 
 ## Running the Project
 Copy the appliction-config folder to c:\Users{username}\ on Windows or /home/{username}/ on *nix. Then open a git bash terminal in application-config and run:
-git init
+
+$ git init
 
 $ git add .
 
