@@ -25,9 +25,14 @@ Used technologies:
 ## Running the Project
 Copy the appliction-config folder to c:\Users{username}\ on Windows or /home/{username}/ on *nix. Then open a git bash terminal in application-config and run:
 git init
-git add .
-git commit -m "Init commit"
+
+$ git add .
+
+$ git commit -m "Init commit"
+
 start the config server
+
 start the discovery server
-start all the other servers in any order (gateway, book-info, book-catalog)
+
+start all the other servers in any order (gateway, book-info, book-catalog, book-rating)
 
